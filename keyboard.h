@@ -67,6 +67,9 @@
 //  - BBB: column lookup number
 //  - CCC: row lookup number
 #define KEY_NA  0
+#define KEY_SHIFT (COL_3 << KEY_MAP_COLUMN_OFFSET) | ROW_12
+#define KEY_FCTN  (COL_3 << KEY_MAP_COLUMN_OFFSET) | ROW_8
+#define KEY_CTRL  (COL_3 << KEY_MAP_COLUMN_OFFSET) | ROW_5
 #define KEY_MAP { \
   KEY_NA,                                                                                   /* 0x00               */ \
   KEY_NA,                                                                                   /* 0x01               */ \
