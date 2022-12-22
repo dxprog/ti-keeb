@@ -67,7 +67,7 @@
 //  - BBB: column lookup number
 //  - CCC: row lookup number
 #define KEY_NA 0
-#define KEY_MAP[] = {
+#define KEY_MAP {
   KEY_NA,                                                                                   /* 0x00               */ \
   KEY_NA,                                                                                   /* 0x01               */ \
   KEY_NA,                                                                                   /* 0x02               */ \
