@@ -1,4 +1,5 @@
-#include "pico/stdlib.h"
+#ifndef __KEYBOARD_H__
+#define __KEYBOARD_H__
 
 // TI-99 Keyboard Connector
 // -------------------------------
@@ -155,3 +156,5 @@
   (MODIFIER_FCTN << KEY_MAP_MODIFIER_OFFSET) | (COL_2 << KEY_MAP_COLUMN_OFFSET) | ROW_4,    /* 0x51 Down arrow    */ \
   (MODIFIER_FCTN << KEY_MAP_MODIFIER_OFFSET) | (COL_1 << KEY_MAP_COLUMN_OFFSET) | ROW_5,    /* 0x52 Up arrow      */ \
 }
+
+#endif

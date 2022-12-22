@@ -17,6 +17,7 @@ add_executable(TIUsbKeeb)
 
 target_sources(TIUsbKeeb PUBLIC
 	${CMAKE_CURRENT_LIST_DIR}/src/main.cpp
+	${CMAKE_CURRENT_LIST_DIR}/src/keyboard.cpp
 )
 
 target_link_libraries(TIUsbKeeb pico_stdlib)
