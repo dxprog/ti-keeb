@@ -24,3 +24,5 @@ target_link_libraries(TIUsbKeeb pico_stdlib)
 
 pico_enable_stdio_usb(TIUsbKeeb 1)
 pico_enable_stdio_uart(TIUsbKeeb 1)
+
+pico_add_extra_outputs(TIUsbKeeb)
