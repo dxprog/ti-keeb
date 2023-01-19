@@ -14,23 +14,31 @@
 
 // A list of column lookup numbers as stored in the key map to the
 // column pin on the keyboard connector
-#define COL_0      0
-#define COL_1      1
-#define COL_2      2
+#define COL_0       0
+#define COL_0_GPIO 28
+#define COL_1       1
+#define COL_1_GPIO 27
+#define COL_2       2
+#define COL_2_GPIO 26
 #define COL_3      3
+#define COL_3_GPIO 22
 #define COL_6      4
+#define COL_6_GPIO 28
 #define COL_7      5
+#define COL_7_GPIO 20
 #define COL_9      6
+#define COL_9_GPIO 19
 #define COL_COUNT  7
+#define COL_NOT_FOUND 255
 #define KEY_MAP_COLUMN_OFFSET 3
 const uint8_t COLUMN_LOOKUP[COL_COUNT] = {
-  28, // COL_0
-  27, // COL_1
-  26, // COL_2
-  22, // COL_3
-  21, // COL_6
-  20, // COL_7
-  19, // COL_9
+  COL_0_GPIO,
+  COL_1_GPIO,
+  COL_2_GPIO,
+  COL_3_GPIO,
+  COL_6_GPIO,
+  COL_7_GPIO,
+  COL_9_GPIO,
 };
 
 // A list of row lookup numbers as stored in the key map to the
