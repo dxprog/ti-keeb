@@ -5,6 +5,37 @@
 uint8_t pressedColumnRows[COL_COUNT];
 
 /**
+ * Looks up the column index from a GPIO pin number
+ */
+uint8_t lookupColumnIndexFromGpio(uint gpio) {
+  for (uint8_t i = 0; i < COL_COUNT; i++) {
+    if (COLUMN_LOOKUP[i] == gpio) {
+      return i;
+    }
+  }
+
+  return COL_NOT_FOUND;
+}
+
+/**
+ * Enables the correct row outputs for whichever column scan triggered an IRQ
+ */
+void handleColumnIrq(uint gpio, uint32_t events) {
+  uint8_t columnIndex = lookupColumnIndexFromGpio(gpio);
+
+  if (columnIndex == COL_NOT_FOUND) {
+    return;
+  }
+
+  gpio_put(PICO_DEFAULT_LED_PIN, true);
+
+  uint8_t rowPin = pressedColumnRows[columnIndex];
+  for (uint8_t j = 0; j < ROW_COUNT; j++) {
+    gpio_put(rowPin, rowPin != ROW_LOOKUP[j]);
+  }
+}
+
+/**
  * Initializes keyboard mapping memory and pins
  */
 void initKeyboard() {
@@ -13,15 +44,17 @@ void initKeyboard() {
     pressedColumnRows[i] = 0;
   }
 
-  // set all the pins
+  // set up the IRQ handler for the keyboard columns
+  gpio_set_irq_callback(&handleColumnIrq);
   for (uint8_t i = 0; i < COL_COUNT; i++) {
-    gpio_init(COLUMN_LOOKUP[i]);
-    gpio_set_dir(COLUMN_LOOKUP[i], false);
+    gpio_set_irq_enabled(COLUMN_LOOKUP[i], GPIO_IRQ_EDGE_FALL, true);
   }
+  irq_set_enabled(IO_IRQ_BANK0, true);
 
   for (uint8_t i = 0; i < ROW_COUNT; i++) {
     gpio_init(ROW_LOOKUP[i]);
-    gpio_set_dir(ROW_LOOKUP[i], true);
+    gpio_set_dir(ROW_LOOKUP[i], GPIO_OUT);
+    gpio_put(ROW_LOOKUP[i], true);
   }
 }
 
@@ -42,20 +75,4 @@ void setKey(uint8_t keymapCode, bool pressed) {
   }
 
   pressedColumnRows[columnLookup] = rowPin;
-}
-
-/**
- * Updates the pressed rows based on the state of the machine
- */
-void processKeys() {
-  bool colStatus;
-  uint8_t rowPin;
-  for (uint8_t i = 0; i < COL_COUNT; i++) {
-    colStatus = gpio_get(COLUMN_LOOKUP[i]);
-
-    for (uint8_t j = 0; j < ROW_COUNT; j++) {
-      // columns reads are active low, so if the line's gone low, process the pressed key
-      gpio_put(pressedColumnRows[i], colStatus || rowPin != ROW_LOOKUP[i]);
-    }
-  }
 }
